@@ -1,0 +1,21 @@
+{
+  "name": "nes-1",
+  "version": "1.0.0",
+  "description": "Aplicación con Node, Express, SQL y EJS - Ejemplo de catalogo de propiedades.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ATG-5222/NES-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ATG-5222/NES-1/issues"
+  },
+  "homepage": "https://github.com/ATG-5222/NES-1#readme"
+}
