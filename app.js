@@ -23,8 +23,12 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+const routeHomepage = require('./routes/routeHomepage');
+
+app.use('/', routeHomepage);
+
+app.use((request, response, next) => {
+    console.log("Error 404");
 });
 
 app.listen(port, () => {
