@@ -9,7 +9,6 @@ exports.getHomepage = async(req,res,next) => {;
         imgSrc = await Foto.fetchImagenInmueble(imgId[0][0].idFoto);
         inmuebles[0][i].img = imgSrc[0][0].archivo;
     }
-    console.log(inmuebles[0])
     res.render('Homepage', {
         inmuebles: inmuebles[0],
     });
