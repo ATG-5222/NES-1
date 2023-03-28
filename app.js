@@ -15,9 +15,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const routeHomepage = require('./routes/routeHomepage');
+const routeSearchpage = require('./routes/routeSearchpage');
 
+app.use('/buscar', routeSearchpage);
 app.use('/', routeHomepage);
-app.use('/buscar', routeHomepage);
 
 app.use((req, res, next) => {
     res.render('error404');
