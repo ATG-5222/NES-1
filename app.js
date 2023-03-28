@@ -17,9 +17,10 @@ app.use(bodyParser.json());
 const routeHomepage = require('./routes/routeHomepage');
 
 app.use('/', routeHomepage);
+app.use('/buscar', routeHomepage);
 
-app.use((request, response, next) => {
-    console.log("Error 404");
+app.use((req, res, next) => {
+    res.render('error404');
 });
 
 app.listen(port, () => {
