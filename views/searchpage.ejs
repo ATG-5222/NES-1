@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Buscar productos - Mi Tienda</title>
     <!-- Enlazar con el archivo de estilos de Tailwind -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link href="//cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
     <!-- Enlazar con el archivo de DataTables CSS -->
-    <link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -34,7 +34,7 @@
       <button id="actualizar">Actualizar tabla</button>
       <!-- Inicio de la DataTable -->
       <div class="table-responsive">
-        <table id="tabla">
+        <table id="dataTable">
           <thead>
             <tr>
               <th>Nombre</th>
@@ -55,30 +55,36 @@
     </footer>
 
     <!-- Enlazar con la biblioteca de jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="//code.jquery.com/jquery-3.6.4.min.js"></script>
     <!-- Enlazar con el archivo de DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
     <script>
       $(document).ready(function() {
-        // Inicializa la dataTable
-        var tabla = $('#tabla').DataTable();
-        // Al hacer clic en el botón de actualizar
-        $('#actualizar').on('click', function() {
-          // Obtiene el parámetro ingresado por el usuario
-          var parametro = $('#parametro').val();
-          // Realiza la petición GET a la ruta /datos/:parametro
-          $.get('/buscar/'+parametro, function(data) {
-            // Borra los datos anteriores de la tabla
-            tabla.clear();
-            // Agrega los nuevos datos a la tabla
-            tabla.rows.add(data);
-            // Actualiza la dataTable
-            tabla.draw();
-          });
+        // Obtener datos de la tabla
+        $.ajax({
+          url: '/buscar',
+          type: 'GET',
+          dataType: 'json',
+          success: function(data) {
+            // Inicializar DataTable con los datos obtenidos
+            $('#dataTable').DataTable({
+              data: data,
+              columns: [
+                { data: 'nombre' },
+                { data: 'idTipoMovimiento' },
+                { data: 'precio' }  
+              ],
+              responsive: true
+            }).columns.adjust()
+            .responsive.recalc();
+          },
+          error: function(xhr, textStatus, errorThrown) {
+            console.log('Error en la petición:', errorThrown);
+          }
         });
       });
-    </script>
+    </script>    
 
   </body>
 </html>
