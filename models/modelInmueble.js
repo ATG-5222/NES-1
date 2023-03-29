@@ -16,7 +16,7 @@ module.exports = class Inmueble {
 
     static ajaxPrincipalSearchPage(valor){
         return db.execute(
-            'SELECT nombre,idTipoMovimiento,precio FROM inmueble WHERE activo = 1 AND nombre LIKE ? OR descripcion LIKE ?',
+            'SELECT I.idInmueble as idInmueble, I.nombre as nombreInmueble,TM.nombre as nombreMovimiento, I.precio as precio FROM inmueble I JOIN tipomovimiento TM WHERE I.idTipoMovimiento = TM.idTipoMovimiento AND I.activo = 1 AND (I.nombre LIKE ? OR I.descripcion LIKE ?)',
             ['%' + valor + '%', '%' + valor + '%']
         );
     }
