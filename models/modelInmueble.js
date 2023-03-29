@@ -10,7 +10,7 @@ module.exports = class Inmueble {
 
     static principalSearchPage(){
         return db.execute(
-            'SELECT I.nombre as nombreInmueble,TM.nombre as nombreMovimiento, I.precio as precio FROM inmueble I JOIN tipomovimiento TM WHERE I.idTipoMovimiento = TM.idTipoMovimiento AND I.activo = 1'
+            'SELECT I.idInmueble as idInmueble, I.nombre as nombreInmueble,TM.nombre as nombreMovimiento, I.precio as precio FROM inmueble I JOIN tipomovimiento TM WHERE I.idTipoMovimiento = TM.idTipoMovimiento AND I.activo = 1'
         );
     }
 
