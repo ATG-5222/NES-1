@@ -28,25 +28,17 @@
 
     <main class="container mx-auto my-8">
       <h2 class="text-2xl font-bold mb-4">Buscar productos</h2>
-      <!-- Campo de texto para ingresar el parámetro de la consulta -->
-      <input type="text" id="parametro" placeholder="Ingresa un nombre">
-      <!-- Botón para actualizar la tabla -->
-      <button id="actualizar">Actualizar tabla</button>
+      <form id="form">
+        <!-- Campo de texto para ingresar el parámetro de la consulta -->
+        <input type="text" id="parametro" name="parametro" placeholder="Ingresa un nombre">
+        <!-- Botón para actualizar la tabla -->
+        <button type="submit" id="actualizar">Actualizar tabla</button>
+      </form>
       <!-- Inicio de la DataTable -->
       <div class="table-responsive">
-        <table id="dataTable">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Tipo de movimiento</th>
-              <th>Precio</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         </table>
       </div>
-    </main>
 
     <footer class="bg-gray-900 text-white py-4">
       <div class="container mx-auto px-4">
@@ -55,36 +47,109 @@
     </footer>
 
     <!-- Enlazar con la biblioteca de jQuery -->
-    <script src="//code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <!-- Enlazar con el archivo de DataTables JS -->
     <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 
-    <script>
-      $(document).ready(function() {
-        // Obtener datos de la tabla
-        $.ajax({
-          url: '/buscar',
-          type: 'GET',
-          dataType: 'json',
-          success: function(data) {
-            // Inicializar DataTable con los datos obtenidos
-            $('#dataTable').DataTable({
-              data: data,
-              columns: [
-                { data: 'nombre' },
-                { data: 'idTipoMovimiento' },
-                { data: 'precio' }  
-              ],
-              responsive: true
-            }).columns.adjust()
-            .responsive.recalc();
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/locale/es.js"></script>
+
+    <script crossorigin="anonymous" type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>
+
+    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
+    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
+
+    <script type="text/javascript">
+      var log = console.log;
+      $(document).ready(function(e){
+          recargarTablaUsuarios()
+      })
+    </script>
+
+    <script type="text/javascript">
+      //Intercepta el submit del form
+      $("#form").submit(function(e){
+        e.preventDefault()
+        log("Submit del form")
+      })
+    </script>
+
+    <script type="text/javascript">
+      function recargarTablaUsuarios(){
+        if ($.fn.DataTable.isDataTable("#dataTable")) {
+          //$("#table_report").DataTable().clear().draw();
+          $("#dataTable").dataTable().fnDestroy();
+          //$("#table_report").dataTable();
+          $('#dataTable').empty();
+        }
+
+        var thead = ""
+        var tfooter = ""
+        thead += '<thead>'
+            thead += '<tr>'
+            thead += '<th>IdInmueble</th>'
+            thead += '<th>nombreInmueble</th>'
+            thead += '<th>nombreMovimiento</th>'
+            thead += '<th>precio</th>'
+            thead += '</tr>'
+        thead += '</thead>'
+        tfooter += '<tfoot>'
+            tfooter += '<tr>'
+            tfooter += '<th>IdInmueble</th>'
+            tfooter += '<th>nombreInmueble</th>'
+            tfooter += '<th>nombreMovimiento</th>'
+            tfooter += '<th>precio</th>'
+            tfooter += '</tr>'
+        tfooter += '</tfoot>'
+        $('#dataTable').append(thead);
+        $('#dataTable').append(tfooter);
+
+        $.fn.dataTable.moment('DD-MM-YYYY'); //Para ordenar por fecha
+
+        dataTable = $("#dataTable").dataTable({
+          language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
           },
-          error: function(xhr, textStatus, errorThrown) {
-            console.log('Error en la petición:', errorThrown);
-          }
-        });
-      });
-    </script>    
+          processing : true,
+          lengthMenu : [10, 1, 2, 3, 5],
+          order      : [[0,'asc']],
+          deferRender: true,
+          //data     : data,
+          ajax       : '/buscar/busqueda_datos',
+          columns    : [
+            {
+                data: "idInmueble"
+            },
+            {
+                data: null,
+                render: function(data, type, row) {
+                    log(data)
+                    return '<span class="badge badge-success">'+data.nombreInmueble+'</span>'
+                }
+            },
+            {
+              data: null,
+              render: function(data, type, row) {
+                  log(data)
+                  return '<span class="badge badge-success">'+data.nombreMovimiento+'</span>'
+              }
+            },
+            {
+              data: null,
+              render: function(data, type, row) {
+                  log(data)
+                  return '<span class="badge badge-success">'+data.precio+'</span>'
+              }
+            }
+          ] 
+        })
+      }
+    </script>
 
   </body>
 </html>
