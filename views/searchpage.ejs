@@ -1,53 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Buscar productos - Mi Tienda</title>
-    <!-- Enlazar con el archivo de estilos de Tailwind -->
-    <link href="//cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
-    <!-- Enlazar con el archivo de DataTables CSS -->
-    <link href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet">
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Catálogo de productos</title>
+        <!-- Enlazar con el archivo de estilos de Tailwind -->
+        <link href="//cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    </head>
 
-  <body>
+    <body class="content-center">
+      <!-- Incluir navbar -->
+      <%- include('includes/navbar'); %>
+        <h1 class="text-2xl font-bold mb-4">Catalogo de productos</h2>
+        <main class="container mx-auto my-8">
+          <!-- Desplegar elementos del catalogo -->
+          <%if(inmuebles.length > 0){%>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <%inmuebles.forEach(inmueble=>{%>
+                  <%- include('cardsSearchPage/genericCard', {data: inmueble}); %>
+                <%})%>
+            </div>
+          <%}else{%>
+            <p class="text-center text-lg font-bold">No hay ningún inmueble por el momento</p>
+          <%}%>
+        </main>
 
-    <%- include('includes/navbar'); %>
+        <div class="break"></div>
+      <!--Display the links to the pages-->
+      <% if(page > 1) { %> <a href="buscar/?page=<%=page-1%>">Before</a> <% } %>
+      <% for(let i = iterator; i <= endingLink; i++) { %>
+          <% if(i === page) { %>
+          <a class="selectedLink" href="buscar/?page=<%=i%>"><%=i%></a>
+          <% continue; %>
+      <% } %>
+          <a href="buscar/?page=<%=i%>"><%=i%></a>
+          <% } %>
+          <% if(page < numOfPages) { %> <a href="buscar/?page=<%=page+1%>">After</a> <% } %>
+        
+      <!--Aqui va el footer -->
+      <%- include('includes/footer'); %>
 
-    <main class="container mx-auto my-8">
-      <h2 class="text-2xl font-bold mb-4">Buscar productos</h2>
-      <form id="form">
-        <!-- Campo de texto para ingresar el parámetro de la consulta -->
-        <input type="text" id="parametro" name="parametro" placeholder="Ingresa un nombre">
-        <!-- Botón para actualizar la tabla -->
-        <button type="submit" id="actualizar">Actualizar tabla</button>
-      </form>
-      <!-- Inicio de la DataTable -->
-      <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-        </table>
-      </div>
+    </body>
 
-    <%- include('includes/footer'); %>
-
-    <!-- Enlazar con la biblioteca de jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    <!-- Enlazar con el archivo de DataTables JS -->
-    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/locale/es.js"></script>
-
-    <script crossorigin="anonymous" type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>
-
-    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
-    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.flash.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
-    <script crossorigin="anonymous" type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.print.min.js"></script>
-
-  </body>
 </html>

@@ -8,16 +8,16 @@ module.exports = class Inmueble {
         );
     }
 
-    static principalSearchPage(){
+    static numResultsSearchPage(){
         return db.execute(
-            'SELECT I.idInmueble as idInmueble, I.nombre as nombreInmueble,TM.nombre as nombreMovimiento, I.precio as precio FROM inmueble I JOIN tipomovimiento TM WHERE I.idTipoMovimiento = TM.idTipoMovimiento AND I.activo = 1'
+            'SELECT COUNT(idInmueble) as total FROM inmueble WHERE activo = 1'
         );
     }
 
-    static ajaxPrincipalSearchPage(valor){
+    static limitSearchPage(start,end){
         return db.execute(
-            'SELECT I.idInmueble as idInmueble, I.nombre as nombreInmueble,TM.nombre as nombreMovimiento, I.precio as precio FROM inmueble I JOIN tipomovimiento TM WHERE I.idTipoMovimiento = TM.idTipoMovimiento AND I.activo = 1 AND (I.nombre LIKE ? OR I.descripcion LIKE ?)',
-            ['%' + valor + '%', '%' + valor + '%']
+            'SELECT I.idInmueble as idInmueble, I.nombre as nombreInmueble,TM.nombre as nombreMovimiento, I.precio as precio FROM inmueble I JOIN tipomovimiento TM WHERE I.idTipoMovimiento = TM.idTipoMovimiento AND I.activo = 1 LIMIT ?,?',
+            [start,end]
         );
     }
 
