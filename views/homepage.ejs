@@ -25,15 +25,23 @@
             </form>
 
             <h2 class="text-2xl font-bold mb-4">Productos destacados</h2>
-            <% if (inmuebles.length > 0) { %>
+            <%if(inmuebles.length > 0){%>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <% inmuebles.forEach(inmueble => { %>
-                        <%- include('cardsHomepage/genericCard', {data: inmueble}); %>
-                    <% }) %>
+                    <%inmuebles.forEach(inmueble=>{%>
+                        <%if(inmueble.idCategoria == 1){%>
+                            <%- include('cardsHomepage/casa', {data: inmueble}); %>
+                        <%}%>
+                        <%if(inmueble.idCategoria == 2){%>
+                            <%- include('cardsHomepage/departamento', {data: inmueble}); %>
+                        <%}%>
+                        <%if(inmueble.idCategoria == 3){%>
+                            <%- include('cardsHomepage/terreno', {data: inmueble}); %>
+                        <%}%>
+                    <%})%>
                 </div>
-            <% } else { %>
+            <%}else{%>
                 <p class="text-center text-lg font-bold">No hay ningún inmueble por el momento</p>
-            <% } %>
+            <%}%>
         </main>
 
         <%- include('includes/footer'); %>
