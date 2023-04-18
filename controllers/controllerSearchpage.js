@@ -33,12 +33,12 @@ exports.getSearchpage = async (req,res,next) => {
         iterator -= (page+4)-numOfPages;
     }
     //Renderizar los resultados
-    console.log("-----------");
-    console.log("Pagina",page);
-    console.log("Iterador",iterator);
-    console.log("endingLink",endingLink);
-    console.log("Numero de paginas",numOfPages);
-    console.log("-----------");
+    // console.log("-----------");
+    // console.log("Pagina",page);
+    // console.log("Iterador",iterator);
+    // console.log("endingLink",endingLink);
+    // console.log("Numero de paginas",numOfPages);
+    // console.log("-----------");
     res.render('searchpage', {
         inmuebles: inmuebles[0],
         page: page,

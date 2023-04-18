@@ -12,33 +12,33 @@
     <body class="content-center">
       <!-- Incluir navbar -->
       <%- include('includes/navbar'); %>
-        <h1 class="text-2xl font-bold mb-4">Catalogo de productos</h2>
-        <main class="container mx-auto my-8">
-          <!-- Desplegar elementos del catalogo -->
-          <%if(inmuebles.length > 0){%>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                <%inmuebles.forEach(inmueble=>{%>
-                  <%- include('cardsSearchPage/genericCard', {data: inmueble}); %>
-                <%})%>
-            </div>
-          <%}else{%>
-            <p class="text-center text-lg font-bold">No hay ningún inmueble por el momento</p>
-          <%}%>
-        </main>
+      <h1 class="text-2xl font-bold mb-4">Catalogo de productos</h2>
+      <main class="container mx-auto my-8">
+        <!-- Desplegar elementos del catalogo -->
+        <%if(inmuebles.length > 0){%>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <%inmuebles.forEach(inmueble=>{%>
+                <%- include('cardsSearchPage/genericCard', {data: inmueble}); %>
+              <%})%>
+          </div>
+        <%}else{%>
+          <p class="text-center text-lg font-bold">No hay ningún inmueble por el momento</p>
+        <%}%>
+      </main>
 
-        <div class="break"></div>
+      <div class="break"></div>
       <!--Display the links to the pages-->
-      <% if(page > 1) { %> <a href="buscar/?page=<%=page-1%>">Before</a> <% } %>
+      <% if(page > 1) { %> <a href="buscar?page=<%=page-1%>">Before</a> <% } %>
       <% for(let i = iterator; i <= endingLink; i++) { %>
-          <% if(i === page) { %>
-          <a class="selectedLink" href="buscar/?page=<%=i%>"><%=i%></a>
+        <% if(i === page) { %>
+          <a class="selectedLink" href="buscar?page=<%=i%>"><%=i%></a>
           <% continue; %>
-      <% } %>
-          <a href="buscar/?page=<%=i%>"><%=i%></a>
           <% } %>
-          <% if(page < numOfPages) { %> <a href="buscar/?page=<%=page+1%>">After</a> <% } %>
-        
-      <!--Aqui va el footer -->
+          <a href="buscar?page=<%=i%>"><%=i%></a>
+      <% } %>
+      <% if(page < numOfPages) { %> <a href="buscar?page=<%=page+1%>">After</a> <% } %>
+
+      <!--Incluir footer -->
       <%- include('includes/footer'); %>
 
     </body>
