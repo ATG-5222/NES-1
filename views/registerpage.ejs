@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Agregamos los estilos de Tailwind CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.7/tailwind.min.css">
+    <title>Registar inmueble</title>
+    </head>
+
+    <body class="bg-gray-100">
+        <%- include('includes/navbar'); %>
+        <div class="container mx-auto mt-8">
+            <h1 class="text-3xl font-bold mb-4">Seleccione una opción:</h1>
+            <div class="flex justify-center">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">Registrar casa</button>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-4">Registrar departamento</button>
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Registar terreno</button>
+            </div>
+        </div>
+        <%- include('includes/footer'); %>
+    </body>
+
+</html>

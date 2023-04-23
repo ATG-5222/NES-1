@@ -20,10 +20,10 @@ exports.getSearchpage = async (req,res,next) => {
     //Determinar los limites
     const startingLimit = (page-1)*resultsPerPage;
     //Construir la lista de inmuebles desde la db
-    const inmuebles = await Inmueble.limitSearchPage(startingLimit,resultsPerPage);
+    const inmuebles = await Inmueble.limitSearchPage(startingLimit.toString(),resultsPerPage.toString());
     for (let i = 0; i < inmuebles[0].length; i++) {
-        const imgId = await InmuebleFoto.fetchIdImagenInmueble(inmuebles[0][i].idInmueble);
-        const imgSrc = await Foto.fetchImagenInmueble(imgId[0][0].idFoto);
+        const imgId = await InmuebleFoto.fetchIdImagenInmueble((inmuebles[0][i].idInmueble.toString()));
+        const imgSrc = await Foto.fetchImagenInmueble((imgId[0][0].idFoto).toString());
         inmuebles[0][i].img = imgSrc[0][0].archivo;
     }
     //Obtener la información necesaria de la lista

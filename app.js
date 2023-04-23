@@ -16,7 +16,9 @@ app.use(bodyParser.json());
 
 const routeHomepage = require('./routes/routeHomepage');
 const routeSearchpage = require('./routes/routeSearchpage');
+const routeRegisterpage = require('./routes/routeRegisterpage');
 
+app.use('/alta', routeRegisterpage);
 app.use('/buscar', routeSearchpage);
 app.use('/', routeHomepage);
 
