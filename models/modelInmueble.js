@@ -21,4 +21,24 @@ module.exports = class Inmueble {
         );
     }
 
+    static insertDeactivatedRegister(idCategoria){
+        return db.execute(
+            'INSERT INTO inmueble(idAgenteAlta,idAgenteAsignado,idCategoria,nombre,descripcion,idTipoMovimiento,precio,coordenadaX,coordenadaY,activo) VALUES (?,?,?,?,?,?,?,?,?,?)',
+            [1,3,idCategoria,"Registro vacio","Registro vacio",1,0,0,0,0]
+        );
+    }
+
+    static getDeactivatedRegisterID(){
+        return db.execute(
+            'SELECT idInmueble FROM inmueble WHERE activo = 0 ORDER BY idInmueble DESC LIMIT 1'
+        );
+    }
+
+    static activateInmuebleCasa(name,desc,tipoMovimiento,precio,coordX,coordY,idInmueble){
+        return db.execute(
+            'UPDATE inmueble SET nombre=?,descripcion=?,idTipoMovimiento=?,precio=?,coordenadaX=?,coordenadaY=?,activo=1 WHERE idInmueble=?',
+            [name,desc,tipoMovimiento,precio,coordX,coordY,idInmueble]
+        );
+    }
+
 }
