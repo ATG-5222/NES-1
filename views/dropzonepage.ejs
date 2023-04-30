@@ -10,6 +10,62 @@
 
     <body class="bg-gray-100">
         <%- include('includes/navbar'); %>
+
+        <form action="/dropzone/upload" id="imagenesSecundarias" name="imagenesSecundarias"
+        enctype="multipart/form-data" method="post">
+            <div class="dropzone dz-clickable" id="uploadDropzone">
+                <div class="dz-default dz-message" data-dz-message="">
+                    <span>Drop files here to upload</span>
+                </div>
+            </div>
+            <br />
+        </form>
+
+        <div class="px-10 pb-12 flex justify-evenly">
+            <button class="px-5 py-2 w-1/3 rounded-lg text-base text-white font-medium bg-gray-800 hover:font-medium hover:bg-gray-700 btnSubmit">
+                Subir imagenes
+            </button>
+        </div>
+
+        <!-- Enlazar con la biblioteca de jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+        <!-- Enlazar con la biblioteca de Dropzone -->
+        <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
+
+        <!-- Submit del formulario desde el boton -->
+        <script type="text/javascript">   
+            $(document).on("click", ".btnSubmit", function(){	
+                $('#imagenesSecundarias').submit();
+            })
+        </script>
+
+        <!-- Configuración de dropzone -->
+        <script type="text/javascript">
+            Dropzone.autoDiscover = false;
+            function paramNameForSend() {
+                return "media";
+            }
+            $("#uploadDropzone").dropzone({ 
+                url: '/dropzone/upload',
+                maxFilesize: 3, // MB
+                maxFiles: 10,
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                paramName: paramNameForSend,
+                method: 'post',
+                parallelUploads: 10,
+                init: function() {
+                    var myDropzone = this;
+                    $("#imagenesSecundarias").submit(function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        myDropzone.processQueue();
+                    }); 
+                }
+            });
+        </script>
+
     </body>
 
 </html>
